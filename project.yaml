@@ -34,8 +34,8 @@ network:
     IntentionId: Hash
     IntentionType: 
       _enum:
-          SELL
-          BUY
+        SELL
+        BUY
     LookupSource: AccountId
     OrderedSet: Vec<AssetId>
     Price: Balance
