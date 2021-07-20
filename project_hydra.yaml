@@ -3,29 +3,28 @@ description: Demo node
 repository: ''
 schema: ./schema.graphql
 network:
-  endpoint: ws://hydradx-test.ngrok.io
-#  endpoint: wss://rpc-01.snakenet.hydradx.io
-  #  dictionary: https://api.subquery.network/sq/subquery/dictionary-polkadot
+  endpoint: wss://rpc-01.snakenet.hydradx.io
+#  dictionary: https://api.subquery.network/sq/subquery/dictionary-polkadot
   types:
-    AssetPair: 
+    AssetPair:
       asset_in: AssetId
       asset_out: AssetId
     Amount: i128
     AmountOf: Amount
     Address: AccountId
-    OrmlAccountData: 
+    OrmlAccountData:
       free: Balance
       frozen: Balance
       reserved: Balance
-    BalanceInfo: 
+    BalanceInfo:
       amount: Balance
       assetId: AssetId
-    Chain: 
+    Chain:
       genesisHash: Vec<u8>
       lastBlockHash: Vec<u8>
     CurrencyId: AssetId
     CurrencyIdOf: AssetId
-    Intention: 
+    Intention:
       who: AccountId
       asset_sell: AssetId
       asset_buy: AssetId
@@ -33,14 +32,14 @@ network:
       discount: bool
       sell_or_buy: IntentionType
     IntentionId: Hash
-    IntentionType: 
-      _enum:  
-        - SELL
-        - BUY
+    IntentionType:
+      _enum:
+        SELL
+        BUY
     LookupSource: AccountId
     OrderedSet: Vec<AssetId>
     Price: Balance
-    Fee: 
+    Fee:
       numerator: u32
       denominator: u32
   typesAlias:
@@ -54,7 +53,10 @@ dataSources:
       handlers:
         - handler: handleBlock
           kind: substrate/BlockHandler
-#        - handler: handleEvent
-#          kind: substrate/EventHandler
-#        - handler: handleCall
-#          kind: substrate/CallHandler
+        - handler: handleEvent
+          kind: substrate/EventHandler
+          filter:
+            module: balances
+            method: Deposit
+        - handler: handleCall
+          kind: substrate/CallHandler
