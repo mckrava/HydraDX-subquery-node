@@ -1,11 +1,13 @@
 import { SubstrateBlock } from '@subql/types'
 import { Token } from '../types/models/Token'
-import { getAssetList } from '../helpers/token'
+import { getTokensList } from '../helpers/token'
+import type { Hash } from '@polkadot/types/interfaces/runtime';
 
 export class TokenHandler {
 
-  static async ensureTokens (): Promise<void> {
-    const chainTokensList = await getAssetList();
+  static async ensureTokens (currentBlock: SubstrateBlock): Promise<void> {
+    const currentBlockHash: Hash = currentBlock.block.header.hash;
+    const chainTokensList = await getTokensList(currentBlockHash);
 
     await Promise.all(chainTokensList.map(async tokenItem => {
 
@@ -22,5 +24,4 @@ export class TokenHandler {
 
     }))
   }
-
 }

@@ -15,12 +15,11 @@ type Account @entity {
 type Pool @entity {
   id: ID!
   specVersion: Int
-  sharedAsset: Token
-  token0: Token
-  token1: Token
-
+  sharedAsset: Token!
+  token0: Token!
+  token1: Token!
   swapActions: [SwapAction] @derivedFrom(field: "xykTradePool")
-  assetsVolume: [PoolAssetVolume]
+  assetsVolume: [PoolAssetVolume] @derivedFrom(field: "pool")
 }
 
 type SwapAction @entity {
@@ -35,7 +34,7 @@ type SwapAction @entity {
 
   account: Account
 
-  directTrades: [TradeTransfer]
+  directTrades: [TradeTransfer] @derivedFrom(field: "swapAction")
   xykTradePool: Pool
 }
 
@@ -44,6 +43,7 @@ type TradeTransfer @entity {
   isSuccess: Int!
   timestamp: Date!
   block: String!
+  swapAction: SwapAction!
 
   accountTo: Account!
   accountFrom: Account!
@@ -60,6 +60,7 @@ type TradeTransfer @entity {
 
 type PoolAssetVolume @entity {
   id: ID!
+  pool: Pool!
   timestamp: Date!
   token0Amount: BigInt
   token1Amount: BigInt

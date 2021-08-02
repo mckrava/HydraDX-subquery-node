@@ -50,10 +50,13 @@
 // }
 import { SubstrateBlock, SubstrateExtrinsic, SubstrateEvent } from '@subql/types'
 import { TokenHandler } from '../handlers/token'
+// import { AccountHandler } from '../handlers/account'
 
 
-export async function handleBlock(block: SubstrateBlock): Promise<void> {
-    await TokenHandler.ensureTokens();
+export async function handleBlock(currentBlock: SubstrateBlock): Promise<void> {
+
+    await TokenHandler.ensureTokens(currentBlock);
+    // await AccountHandler.ensureAccounts();
 
     // await handler.save()
 }

@@ -3,9 +3,10 @@ description: Demo node
 repository: ''
 schema: ./schema.graphql
 network:
-  endpoint: ws://hydradx-test.ngrok.io
+  endpoint: wss://archive.snakenet.hydradx.io
+#  endpoint: ws://hydradx-test.ngrok.io
 #  endpoint: wss://rpc-01.snakenet.hydradx.io
-  #  dictionary: https://api.subquery.network/sq/subquery/dictionary-polkadot
+  dictionary: https://api.subquery.network/sq/mckrava/hydradx-subquery-dictionary
   types:
     AssetPair: 
       asset_in: AssetId
