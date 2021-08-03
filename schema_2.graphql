@@ -1,0 +1,212 @@
+type Token @entity {
+  id: ID!
+  decimal: Int
+  name: String
+}
+
+type Account @entity {
+  id: ID!
+  specVersion: Int
+
+  tradeTransferOut: [TradeTransfer] @derivedFrom(field: "accountFrom")
+  tradeTransferIn: [TradeTransfer] @derivedFrom(field: "accountTo")
+}
+
+type Pool @entity {
+  id: ID!
+  specVersion: Int
+  sharedAsset: Token
+  token0: Token
+  token1: Token
+
+  swapActions: [SwapAction] @derivedFrom(field: "xykTradePool")
+  assetsVolume: [PoolAssetVolume]
+}
+
+type SwapAction @entity {
+  id: ID!
+  isSuccess: Int!
+  timestamp: Date!
+  block: String!
+  type: String!
+
+  token0: Token
+  token1: Token
+
+  account: Account
+
+  directTrades: [TradeTransfer]
+  xykTradePool: Pool
+}
+
+type TradeTransfer @entity {
+  id: ID!
+  isSuccess: Int!
+  timestamp: Date!
+  block: String!
+
+  accountTo: Account!
+  accountFrom: Account!
+
+  type: String!
+  path: String!
+  token0: String!
+  token1: String!
+  token0Input: String!
+  token1Input: String!
+  result: String!
+}
+
+
+type PoolAssetVolume @entity {
+  id: ID!
+  timestamp: Date!
+  token0Amount: BigInt
+  token1Amount: BigInt
+  sharedAssetAmount: BigInt
+  marketCap: BigInt
+  tradeAmount: BigInt
+}
+
+type AssetPrice @entity {
+  id: ID!
+  token0: Token
+  token1: Token
+  pairName: String!
+  prices: AssetPriceInTime
+}
+
+type AssetPriceInTime @entity {
+  id: ID!
+  timestamp: Date!
+  price: BigInt
+}
+
+
+
+
+
+
+
+
+#
+#type Block @entity {
+#  id: ID!
+#
+#  number: BigInt
+#  timestamp: Date
+#  parentHash: String
+#  specVersion: Int
+#
+#  extrinsics: [Extrinsic] @derivedFrom(field: "block")
+#  events: [Event] @derivedFrom(field: "block")
+#}
+#
+#type Extrinsic @entity {
+#  id: ID!
+#
+#  method: String
+#  section: String
+#  args: String
+#  signer: Account #create relation to account
+#  nonce: BigInt
+#  timestamp: Date
+#  signature: String
+#  tip: BigInt
+#  isSigned: Boolean
+#  isSuccess: Boolean
+#
+#  block: Block #create relation to block
+#
+#  events: [Event] @derivedFrom(field: "extrinsic")
+#  calls: [Call] @derivedFrom(field: "extrinsic")
+#}
+#
+#type Event @entity {
+#  id: ID!
+#
+#  index: Int!
+#  section: String!
+#  method: String!
+#  data: String!
+#
+#  block: Block #create relation to block
+#  extrinsic: Extrinsic #create relation to extrins
+#}
+#
+#type Call @entity {
+#  id: ID!
+#
+#  section: String
+#  method: String
+#  args: String
+#  timestamp: Date
+#  isSuccess: Boolean
+#
+#  signer: Account #create ration to account
+#  extrinsic: Extrinsic #create relation to extrinsic
+#  parentCall: Call #create relation to call
+#
+#  calls: [Call] @derivedFrom(field: "parentCall")
+#}
+#
+#type Account @entity {
+#  id: ID!
+#
+#  extrinsics: [Extrinsic] @derivedFrom(field: "signer")
+#  calls: [Call] @derivedFrom(field: "signer")
+#
+#  transferIn: [Transfer] @derivedFrom(field: "to")
+#  transferOut: [Transfer] @derivedFrom(field: "from")
+#  position: [LoanPosition] @derivedFrom(field: "account")
+#}
+#
+#
+#
+#type Transfer @entity {
+#  id: ID!
+#
+#  from: Account
+#  to: Account
+#  token: Token
+#  amount: BigInt
+#
+#  extrinsic: Extrinsic #create relation to extrinsic
+#  call: Call #create relation to call
+#  timestamp: Date
+#  isSuccess: Boolean
+#}
+#
+#type SwapAction @entity {
+#  id: ID!
+#  isBatch: Int!
+#  isSudo: Int!
+#  isSuccess: Int!
+#
+#  block: String!
+#  extrinsicHash: String!
+#  timestamp: Date!
+#
+#  account: String!
+#  type: String!
+#  path: String!
+#  token0: String!
+#  token1: String!
+#  token0Input: String!
+#  token1Input: String!
+#  result: String!
+#}
+#
+#type Account @entity {
+#  id: ID!
+#  specVersion: Int
+#
+#
+#
+#  extrinsics: [Extrinsic] @derivedFrom(field: "signer")
+#  calls: [Call] @derivedFrom(field: "signer")
+#
+#  transferIn: [Transfer] @derivedFrom(field: "to")
+#  transferOut: [Transfer] @derivedFrom(field: "from")
+#  position: [LoanPosition] @derivedFrom(field: "account")
+#}
