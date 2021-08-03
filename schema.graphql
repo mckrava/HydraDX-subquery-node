@@ -83,7 +83,41 @@ type AssetPriceInTime @entity {
   price: BigInt
 }
 
+# ----- Staking rewards -----
 
+type SumReward @entity{
+
+  id: ID! # AccountId
+
+  accountReward: BigInt!
+
+  accountSlash: BigInt!
+
+  accountTotal: BigInt!
+}
+
+# in early stage of kusama, some validators didn't need to bond to start staking
+type NoBondRecordAccount @entity {
+  id: ID! # AccountId
+
+  firstRewardAt: Int!
+}
+
+
+type StakingReward @entity{
+  id: ID!
+  address: String!
+  balance: BigInt!
+  date: Date!
+}
+
+
+type StakingSlash @entity{
+  id: ID! # AccountId
+  address: String!
+  balance: BigInt!
+  date: Date!
+}
 
 
 

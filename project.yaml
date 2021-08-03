@@ -59,3 +59,31 @@ dataSources:
 #          kind: substrate/EventHandler
 #        - handler: handleCall
 #          kind: substrate/CallHandler
+
+
+
+        - handler: handleBond
+          kind: substrate/EventHandler
+          filter:
+            module: staking
+            method: Bonded
+        - handler: handleReward
+          kind: substrate/EventHandler
+          filter:
+            module: staking
+            method: Reward
+        - handler: handleSlash
+          kind: substrate/EventHandler
+          filter:
+            module: staking
+            method: Slash
+        - handler: handleStakingReward
+          kind: substrate/EventHandler
+          filter:
+            module: staking
+            method: Reward
+        - handler: handleStakingSlash
+          kind: substrate/EventHandler
+          filter:
+            module: staking
+            method: Slash
